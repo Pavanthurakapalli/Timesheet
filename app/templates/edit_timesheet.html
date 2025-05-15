@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Edit Timesheet{% endblock %}
+{% block content %}
+<h2>Edit Timesheet</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <!-- same fields as your create form -->
+    <label>{{ form.week_number.label }}</label>
+    {{ form.week_number() }}<br><br>
+    
+    <!-- continue with other fields -->
+
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2>{{ role.capitalize() }} Dashboard</h2>
+<ul>
+    {% for user in users %}
+        <li><a href="{{ url_for('routes.profile', user_id=user.id) }}">{{ user.name }}</a>
+        {% if role == 'manager' %}| <a href="{{ url_for('routes.review_timesheet', user_id=user.id) }}">Review Timesheet</a>{% endif %}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

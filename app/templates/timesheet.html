@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block title %}My Timesheet{% endblock %}
+
+{% block content %}
+<h2>Submit Timesheet</h2>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <label>{{ form.week_number.label }}</label>
+    {{ form.week_number(class="form-control") }}<br><br>
+
+    <label>{{ form.project.label }}</label>
+    {{ form.project(class="form-control") }}<br><br>
+
+    <label>{{ form.jira_task.label }}</label>
+    {{ form.jira_task(class="form-control") }}<br><br>
+
+    <label>{{ form.mon.label }}</label>
+    {{ form.mon(class="form-control") }}
+
+    <label>{{ form.tue.label }}</label>
+    {{ form.tue(class="form-control") }}
+
+    <label>{{ form.wed.label }}</label>
+    {{ form.wed(class="form-control") }}<br><br>
+
+    <label>{{ form.thu.label }}</label>
+    {{ form.thu(class="form-control") }}
+
+    <label>{{ form.fri.label }}</label>
+    {{ form.fri(class="form-control") }}
+
+    <label>{{ form.sat.label }}</label>
+    {{ form.sat(class="form-control") }}
+
+    <label>{{ form.sun.label }}</label>
+    {{ form.sun(class="form-control") }}<br><br>
+
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+
+<hr>
+
+<h3>Your Timesheets</h3>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th><th>Week</th><th>Project</th><th>Task</th>
+            <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th>
+            <th>Status</th><th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in timesheets %}
+        <tr>
+            <td>{{ t.id }}</td>
+            <td>{{ t.week_number }}</td>
+            <td>{{ t.project.name if t.project else '' }}</td>
+            <td>{{ t.jira_task.task_code if t.jira_task else '' }}</td>
+
+            {% if t.status == 'Pending' %}
+            <form method="POST" action="{{ url_for('routes.update_timesheet', timesheet_id=t.id) }}">
+                {{ csrf_token() }}
+                <td><input type="number" name="mon" value="{{ t.mon }}" class="form-control" step="0.1" /></td>
+                <td><input type="number" name="tue" value="{{ t.tue }}" class="form-control" step="0.1" /></td>
+                <td><input type="number" name="wed" value="{{ t.wed }}" class="form-control" step="0.1" /></td>
+                <td><input type="number" name="thu" value="{{ t.thu }}" class="form-control" step="0.1" /></td>
+                <td><input type="number" name="fri" value="{{ t.fri }}" class="form-control" step="0.1" /></td>
+                <td><input type="number" name="sat" value="{{ t.sat }}" class="form-control" step="0.1" /></td>
+                <td><input type="number" name="sun" value="{{ t.sun }}" class="form-control" step="0.1" /></td>
+                <td>{{ t.status }}</td>
+                <td>
+                    <button type="submit" class="btn btn-sm btn-success">Update</button>
+                </td>
+            </form>
+            {% else %}
+                <td>{{ t.mon }}</td>
+                <td>{{ t.tue }}</td>
+                <td>{{ t.wed }}</td>
+                <td>{{ t.thu }}</td>
+                <td>{{ t.fri }}</td>
+                <td>{{ t.sat }}</td>
+                <td>{{ t.sun }}</td>
+                <td>{{ t.status }}</td>
+                <td></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

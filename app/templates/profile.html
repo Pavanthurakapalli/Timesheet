@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<h2>Employee Profile</h2>
+<p><strong>Name:</strong> {{ user.name }}</p>
+<p><strong>Emp ID:</strong> {{ user.emp_id }}</p>
+<p><strong>Email:</strong> {{ user.email }}</p>
+<p><strong>Role:</strong> {{ user.role }}</p>
+
+{% if current_user.role == 'admin' %}
+    <h3>Change Role</h3>
+    <form method="POST" action="{{ url_for('routes.profile', user_id=user.id) }}">
+
+
+        <input type="hidden" name="user_id" value="{{ user.id }}">
+        
+        <select name="new_role" class="form-control">
+            {% if user.role == 'employee' %}
+                <option value="employee" selected>Employee</option>
+                <option value="manager">Manager</option>
+            {% elif user.role == 'manager' %}
+                <option value="manager" selected>Manager</option>
+                <option value="employee">Employee</option>
+            {% endif %}
+        </select><br><br>
+
+        <button type="submit" name="action" value="update" class="btn btn-primary">Update Role</button>
+    </form>
+{% endif %}
+{% endblock %}
+
+
+<h3>{{ user.name }}'s Timesheets</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th><th>Week</th><th>Project</th><th>Task</th>
+            <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th><th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in timesheets %}
+        <tr>
+            <td>{{ t.id }}</td>
+            <td>{{ t.week_number }}</td>
+            <td>{{ t.project.name if t.project else '' }}</td>
+            <td>{{ t.jira_task.task_code if t.jira_task else '' }}</td>
+            <td>{{ t.mon }}</td>
+            <td>{{ t.tue }}</td>
+            <td>{{ t.wed }}</td>
+            <td>{{ t.thu }}</td>
+            <td>{{ t.fri }}</td>
+            <td>{{ t.sat }}</td>
+            <td>{{ t.sun }}</td>
+            <td>{{ t.status }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+

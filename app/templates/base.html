@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Timesheet App{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
+        .nav { margin-bottom: 20px; }
+        .nav a { margin-right: 10px; text-decoration: none; }
+        table, th, td { border: 1px solid black; border-collapse: collapse; padding: 8px; }
+        th { background-color: #eee; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        {% if current_user.is_authenticated %}
+            Logged in as {{ current_user.name }} | <a href="{{ url_for('routes.dashboard') }}">Dashboard</a>
+            | <a href="{{ url_for('routes.logout') }}">Logout</a>
+        {% endif %}
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>

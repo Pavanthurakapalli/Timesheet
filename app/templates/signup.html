@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Signup{% endblock %}
+{% block content %}
+<h2>Signup</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.name.label }} {{ form.name(class="form-control") }}
+    {{ form.emp_id.label }} {{ form.emp_id(class="form-control") }}
+    {{ form.email.label }} {{ form.email(class="form-control") }}
+    {{ form.password.label }} {{ form.password(class="form-control") }}
+    {{ form.confirm_password.label }} {{ form.confirm_password(class="form-control") }}
+    {{ form.role.label }} {{ form.role(class="form-control") }}
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+
+<p>Already have an account? <a href="{{ url_for('routes.login') }}">Login</a></p>
+{% endblock %}

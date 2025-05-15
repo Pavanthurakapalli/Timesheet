@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Search Timesheet{% endblock %}
+{% block content %}
+<h2>Search Timesheet</h2>
+<form method="GET">
+    <label>Employee ID: <input type="text" name="emp_id"></label><br><br>
+    <label>Week Number: <input type="number" name="week_number" min="1" max="52"></label><br><br>
+    <input type="submit" value="Search">
+</form>
+{% if timesheet %}
+<h3>Result</h3>
+<table>
+<tr>
+    <th>Week</th><th>Project</th><th>Task</th>
+    <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th><th>Status</th>
+</tr>
+<tr>
+    <td>{{ timesheet.week_number }}</td><td>{{ timesheet.project }}</td><td>{{ timesheet.jira_task }}</td>
+    <td>{{ timesheet.mon }}</td><td>{{ timesheet.tue }}</td><td>{{ timesheet.wed }}</td>
+    <td>{{ timesheet.thu }}</td><td>{{ timesheet.fri }}</td><td>{{ timesheet.sat }}</td><td>{{ timesheet.sun }}</td>
+    <td>{{ timesheet.status }}</td>
+</tr>
+</table>
+{% endif %}
+{% endblock %}

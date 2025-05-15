@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Manage Users</h2>
+
+<!-- Flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Current Role</th>
+            <th>Change Role To</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+                <form method="POST" style="display:inline;">
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+
+                    <select name="new_role" class="form-control">
+                        {% if user.role == 'employee' %}
+                            <option value="employee" selected>Employee</option>
+                            <option value="manager">Manager</option>
+                        {% elif user.role == 'manager' %}
+                            <option value="manager" selected>Manager</option>
+                            <option value="employee">Employee</option>
+                        {% else %}
+                            <option disabled>N/A</option>
+                        {% endif %}
+                    </select>
+            </td>
+            <td>
+                    <button type="submit" name="action" value="update" class="btn btn-primary">Update Role</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

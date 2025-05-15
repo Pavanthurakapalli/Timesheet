@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Review Timesheet{% endblock %}
+{% block content %}
+<h2>Review Timesheet for {{ user.name }}</h2>
+<p><strong>Emp ID:</strong> {{ user.emp_id }}</p>
+<p><strong>Email:</strong> {{ user.email }}</p>
+<table>
+<tr>
+    <th>ID</th><th>Week</th><th>Project</th><th>Task</th>
+    <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th><th>Status</th><th>Action</th>
+</tr>
+{% for t in timesheets %}
+<tr>
+    <td>{{ t.id }}</td><td>{{ t.week_number }}</td><td>{{ t.project }}</td><td>{{ t.jira_task }}</td>
+    <td>{{ t.mon }}</td><td>{{ t.tue }}</td><td>{{ t.wed }}</td>
+    <td>{{ t.thu }}</td><td>{{ t.fri }}</td><td>{{ t.sat }}</td><td>{{ t.sun }}</td>
+    <td>{{ t.status }}</td>
+    <td>{% if t.status != 'Approved' %}<a href="{{ url_for('routes.approve', timesheet_id=t.id) }}">Approve</a>{% endif %}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
